@@ -4,18 +4,20 @@ import { Link } from 'react-router-dom'
 
 export default function Signin() {
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("email@email.com")
+  const [password, setPassword] = useState("password")
   const [error, setError] = useState("")
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    console.log(import.meta.env.VITE_API_LOGIN)
+    e.preventDefault();
     await axios({
-      url : "",
+      url : import.meta.env.VITE_API_LOGIN,
       method : "POST",
       data : {email, password}
     }).then((response) => {
       localStorage.setItem("token",JSON.stringify(response.data))
-      navigate("/");
+      window.location.reload();
     })
   }
 

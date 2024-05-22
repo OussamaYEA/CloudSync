@@ -1,23 +1,28 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Signup() {
 
   
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [username, setUsername] = useState("username")
+  const [email, setEmail] = useState("email@email.com")
+  const [password, setPassword] = useState("password")
+  const [confirmPassword, setConfirmPassword] = useState("password")
   const [error, setError] = useState("")
 
-  const handleSignup = async () => {
+  const handleSignup = async (e) => {
+    
+    e.preventDefault();
     await axios({
-      url : "",
+      url : import.meta.env.VITE_API_REGISTER,
       method : "POST",
-      data : {email, password}
+      data : {username, email, password}
     }).then((response) => {
       localStorage.setItem("token",JSON.stringify(response.data))
-      navigate("/");
+      window.location.reload();
+    }).catch((error) => {
+      setError(error?.response?.data?.message)
     })
   }
 

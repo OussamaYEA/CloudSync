@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Item from '../Components/Item'
 import Banner from '../Components/Banner'
+import axios from 'axios'
+
 
 export default function Upload() {
 
@@ -21,15 +23,20 @@ export default function Upload() {
     const fileRef = useRef(null);
 
     function handleDrop(e, type) {
-        if (type === "inputFile") {
-            setFilesToUpload([...filesToUpload, e.target.files[0]])
-          //files = [...e.target.files];
-        } else {
-            e.preventDefault();
-            e.stopPropagation();
-            setDragging(false);
-            setFilesToUpload([...filesToUpload, e.dataTransfer.files[0]])
-            //files = [...e.dataTransfer.files];
+        if(filesToUpload.length == 0){
+            
+            if (type === "inputFile") {
+               //  setFilesToUpload([...filesToUpload, e.target.files[0]])  original
+                setFilesToUpload([ e.target.files[0]])
+              //files = [...e.target.files];
+            } else {
+                e.preventDefault();
+                e.stopPropagation();
+                setDragging(false);
+                // setFilesToUpload([...filesToUpload, e.dataTransfer.files[0]]) ORIGINAL
+                setFilesToUpload([ e.dataTransfer.files[0]])
+                //files = [...e.dataTransfer.files];
+            }
         }
       }
 
@@ -56,7 +63,19 @@ export default function Upload() {
           }
         };
       }, [filesToUpload]);
-
+    
+    // List Files
+    useEffect(() => {
+        const fetchFiles = async () => {
+            await axios({
+              url : import.meta.env.VITE_API_FILE_LIST,
+              method : "GET",
+            }).then((response) => {
+            })
+        }
+        //fetchFiles() 
+    }, []);
+    
     const handleCreateFolder = async () => {
         await axios({
             url : "",
@@ -66,6 +85,7 @@ export default function Upload() {
     }
 
     const [folderName, setFolderName] = useState("")
+    
     const handleUpload = async () => {
         const formData = new FormData();
         formData.append('files', filesToUpload)

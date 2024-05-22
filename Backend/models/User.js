@@ -5,7 +5,8 @@ const User = dynamoose.model("User", {
     "id" : {
         type : String,
         default : uuid.v1(),
-        required : true
+        required : true,
+        hashKey: true,
     },
     "username" : {
         type : String,

@@ -4,6 +4,7 @@ import Signin from './Pages/Signin'
 import Signup from './Pages/Signup'
 import Home from './Pages/Home'
 import Upload from './Pages/Upload'
+import Upload1 from './Pages/Upload1'
 import Profile from './Pages/Profile'
 import PublicRoutes from './middlewares/PrivateRoutes'
 import PrivateRoutes from './middlewares/PublicRoutes'
@@ -25,7 +26,7 @@ function App() {
 
             <Route element={<PrivateRoutes />} >
               <Route path="profile" element={ <Profile/> } />
-              <Route path="upload" element={ <Upload/> } />
+              <Route path="upload" element={ <Upload1/> } />
             </Route>
 
           </Routes>
